@@ -19,6 +19,6 @@ CREATE TABLE employee (
     id INT PRIMARY KEY, 
     first_name VARCHAR(30), -- to hold employee first name
     last_name VARCHAR(30), -- to hold last name
-    role_id INT, -- to hold ref to employee rolde
+    role_id INT, -- to hold ref to employee role
     manager_id INT -- to hold reference to another employee that is manager of the current employee (null if emp has no manager)
 );

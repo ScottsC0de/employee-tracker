@@ -1,7 +1,14 @@
 console.log('Welcome to the Employee Tracker!');
 
 const inquirer = require("inquirer");
-const mysql = require('mysql2')
+const mysql = require('mysql2');
+
+// const express = require('express');
+// const app = express();
+// const PORT = process.env.PORT || 3001;
+
+// app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
 
 inquirer
     .prompt([
@@ -51,16 +58,29 @@ const db = mysql.createConnection(
     console.log(`Connected to the employee database!`) // optional success log
 );
 
+// mysql -u root -p
+// source schema.sql
+// select database(), not show databases; (different command)
+// show tables;
+
+
+
 function viewAllDepartments() {
-    db.query();
+    db.query('SELECT * FROM department', function (err, results) {
+        console.table(results); // table() JS method for a prettier table look in the console log
+    });
 };
 
 function viewAllRoles() {
-    db.query();
+    db.query('SELECT * FROM roles', function (err, results) {
+        console.table(results); // table() JS method for a prettier table look in the console log
+    });
 };
 
 function viewAllEmployees() {
-    db.query();
+    db.query('SELECT * FROM employee', function (err, results) {
+        console.table(results); // table() JS method for a prettier table look in the console log
+    });
 };
 
 function addDepartment() {
@@ -78,3 +98,13 @@ function addEmployee() {
 function updateEmployeeRole() {
     db.query();
 };
+
+// // for the 404 not found page
+// app.use((req, res) => {
+//     res.status(404).end();
+// });
+
+// // success message
+// app.listen(PORT, () => {
+//     console.log(`Express servin it up at port ${PORT} 🚀`);
+// });

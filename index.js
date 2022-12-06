@@ -84,19 +84,85 @@ function viewAllEmployees() {
 };
 
 function addDepartment() {
-    db.query();
+    inquirer
+        .prompt([{
+            type: 'input',
+            name: 'add_department',
+            message: 'New Department name:'
+        }])
+        .then(db.query('SELECT * FROM department', function (err, results) {
+            console.table(results);
+        }));
 };
 
 function addRole() {
-    db.query();
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'add_role',
+                message: 'New Role name:'
+            },
+            {
+                type: 'input',
+                name: 'add_salary',
+                message: 'Role salary amount:'
+            },
+            {
+                type: 'input',
+                name: 'add_role_department',
+                message: 'Role department name:'
+            }
+        ])
+        .then(db.query('SELECT * FROM department', function (err, results) {
+            console.table(results);
+        }));
 };
 
 function addEmployee() {
-    db.query();
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'add_employee_fname',
+                message: 'New Employee first name:'
+            },
+            {
+                type: 'input',
+                name: 'add_employee_lname',
+                message: 'New Employee last name:'
+            },
+            {
+                type: 'input',
+                name: 'add_employee_role',
+                message: 'New Employee role:'
+            },
+            {
+                type: 'input',
+                name: 'add_employee_manager',
+                message: 'New Employee manager name:'
+            }
+        ])
+        .then(db.query('SELECT * FROM department', function (err, results) {
+            console.table(results);
+        }));
 };
 
 function updateEmployeeRole() {
-    db.query();
+    inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'update_employee_role',
+                message: 'Choose new employee role:',
+                choices: ['CFO', 'VP of Sales', 'Regional Manager', 'Assistant to the Regional Manager',
+                    'Head of Accounting', 'Customer Service Rep', 'Accountant', 'Head of Human Resources', 'Warehouse Foreman & Marketing Director',
+                    'Warehouse Foreman', 'Sales Rep', 'Receptionist', 'Office Administrator', 'Quality Assurance Agent', 'Temp Worker']
+            }
+        ])
+        .then(db.query('UPDATE * FROM department', function (err, results) {
+            console.table(results);
+        }));
 };
 
 // // for the 404 not found page

@@ -3,6 +3,9 @@ CREATE DATABASE employees_db;
 
 USE employees_db;
 
+-- See database in use --
+SELECT DATABASE();
+
 CREATE TABLE department (
     id INT NOT NULL PRIMARY KEY,
     name VARCHAR(30) -- to hold dept name
@@ -11,7 +14,7 @@ CREATE TABLE department (
 CREATE TABLE roles (
     id INT NOT NULL,
     title VARCHAR(30), -- to hold role title
-    salary DECIMAL, -- to hold role salary
+    salary DECIMAL (6, 2), -- to hold role salary
     department_id INT -- to hold reference to dept role belongs to
 );
 

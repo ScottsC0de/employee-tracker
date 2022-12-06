@@ -1,14 +1,8 @@
-console.log('Welcome to the Employee Tracker!');
+console.log('Employee Tracker // Company: DUNDER MIFFLIN');
 
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
-
-// const express = require('express');
-// const app = express();
-// const PORT = process.env.PORT || 3001;
-
-// app.use(express.urlencoded({ extended: false }));
-// app.use(express.json());
+const consoleTable = require('')
 
 inquirer
     .prompt([
@@ -42,7 +36,7 @@ inquirer
                         break;
                     case 'Update Employee Role': updateEmployeeRole();
                         break;
-                    default: null;
+                    default: break;
                 }
             }))
     ]);
@@ -55,15 +49,13 @@ const db = mysql.createConnection(
         password: '',  // mySQL password (wont work if its blank)
         database: 'employees'
     },
-    console.log(`Connected to the employee database!`) // optional success log
+    console.log(`Connected to the employee database 📖`) // optional success log
 );
 
 // mysql -u root -p
 // source schema.sql
 // select database(), not show databases; (different command)
 // show tables;
-
-
 
 function viewAllDepartments() {
     db.query('SELECT * FROM department', function (err, results) {
@@ -73,13 +65,13 @@ function viewAllDepartments() {
 
 function viewAllRoles() {
     db.query('SELECT * FROM roles', function (err, results) {
-        console.table(results); // table() JS method for a prettier table look in the console log
+        console.table(results);
     });
 };
 
 function viewAllEmployees() {
     db.query('SELECT * FROM employee', function (err, results) {
-        console.table(results); // table() JS method for a prettier table look in the console log
+        console.table(results);
     });
 };
 
@@ -165,12 +157,10 @@ function updateEmployeeRole() {
         }));
 };
 
-// // for the 404 not found page
-// app.use((req, res) => {
-//     res.status(404).end();
-// });
+app.use((req, res) => {
+    res.status(404).end(); // 404 not found page
+});
 
-// // success message
-// app.listen(PORT, () => {
-//     console.log(`Express servin it up at port ${PORT} 🚀`);
-// });
+app.listen(PORT, () => {
+    console.log(`Express servin it up at port ${PORT} 🚀`); // success message
+});

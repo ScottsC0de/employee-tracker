@@ -2,7 +2,7 @@ console.log('Employee Tracker // Company: DUNDER MIFFLIN');
 
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
-const consoleTable = require('')
+const consoleTable = require('console.table')
 
 inquirer
     .prompt([
@@ -46,7 +46,7 @@ const db = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',  // mySQL username
-        password: '',  // mySQL password (wont work if its blank)
+        password: 'password',  // mySQL password (wont work if its blank)
         database: 'employees'
     },
     console.log(`Connected to the employee database 📖`) // optional success log
@@ -59,19 +59,19 @@ const db = mysql.createConnection(
 
 function viewAllDepartments() {
     db.query('SELECT * FROM department', function (err, results) {
-        console.table(results); // table() JS method for a prettier table look in the console log
+        consoleTable(results); // table() JS method for a prettier table look in the console log
     });
 };
 
 function viewAllRoles() {
     db.query('SELECT * FROM roles', function (err, results) {
-        console.table(results);
+        consoleTable(results);
     });
 };
 
 function viewAllEmployees() {
     db.query('SELECT * FROM employee', function (err, results) {
-        console.table(results);
+        consoleTable(results);
     });
 };
 
@@ -82,9 +82,11 @@ function addDepartment() {
             name: 'add_department',
             message: 'New Department name:'
         }])
-        .then(db.query('SELECT * FROM department', function (err, results) {
-            console.table(results);
-        }));
+        .then((answer) => {
+            (db.query(`INSERT INTO department VALUES ${answer}`, function (err, results) {
+                consoleTable(results);
+            }));
+        })
 };
 
 function addRole() {
@@ -106,8 +108,8 @@ function addRole() {
                 message: 'Role department name:'
             }
         ])
-        .then(db.query('SELECT * FROM department', function (err, results) {
-            console.table(results);
+        .then(db.query(`INSERT INTO department VALUES ${answer}`, function (err, results) {
+            consoleTable(results);
         }));
 };
 
@@ -135,8 +137,8 @@ function addEmployee() {
                 message: 'New Employee manager name:'
             }
         ])
-        .then(db.query('SELECT * FROM department', function (err, results) {
-            console.table(results);
+        .then(db.query(`INSERT INTO department VALUES ${answer}`, function (err, results) {
+            consoleTable(results);
         }));
 };
 
@@ -152,8 +154,8 @@ function updateEmployeeRole() {
                     'Warehouse Foreman', 'Sales Rep', 'Receptionist', 'Office Administrator', 'Quality Assurance Agent', 'Temp Worker']
             }
         ])
-        .then(db.query('UPDATE * FROM department', function (err, results) {
-            console.table(results);
+        .then(db.query(`UPDATE * FROM department`, function (err, results) {
+            consoleTable(results);
         }));
 };
 

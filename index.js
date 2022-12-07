@@ -10,8 +10,8 @@ const viewAllDepartmentsQuery = 'SELECT * FROM department';
 const viewAllRolesQuery = 'SELECT * FROM roles';
 const viewAllEmployeesQuery = 'SELECT * FROM employees';
 const addDepartmentQuery = `INSERT INTO department.name VALUES ${answer.add_department}`;
-const addRoleQuery = `INSERT INTO roles VALUES ${answer.add_role}, ${answer.add_salary}, ${answer.add_role_department}`;
-const addEmployeeQuery = `INSERT INTO employee VALUES ${answer.add_employee_fname}, ${answer.add_employee_lname}, ${answer.add_employee_role}, ${answer.add_employee_manager}`;
+const addRoleQuery = `INSERT INTO roles VALUES ${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department}`;
+const addEmployeeQuery = `INSERT INTO employee VALUES ${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager}`;
 const updateEmployeeRoleQuery = 'UPDATE role FROM employee.name';
 
 // array of employees for employee update function
@@ -96,8 +96,8 @@ function addDepartment() {
             name: 'add_department',
             message: 'New Department name:'
         }])
-        .then((answer) => {
-            // return answer
+        .then((answers) => {
+            // return answers
             (db.query(addDepartmentQuery, function (err, results) {
                 consoleTable(results);
             }))
@@ -123,9 +123,13 @@ function addRole() {
                 message: 'Role department name:'
             }
         ])
-        .then(db.query(addRoleQuery, function (err, results) {
-            consoleTable(results);
-        }));
+        .then((answers) => {
+            // return answers
+            (db.query(addRoleQuery, function (err, results) {
+                consoleTable(results);
+                console.log(`${answers.add_role} (salary: ${answers.add_salary}) added to department ${answers.add_role_department} in database`);
+            }))
+        });
 };
 
 function addEmployee() {
@@ -152,9 +156,13 @@ function addEmployee() {
                 message: 'New Employee manager name:'
             }
         ])
-        .then(db.query(addEmployeeQuery, function (err, results) {
-            consoleTable(results);
-        }));
+        .then((answers) => {
+            // return answers
+            (db.query(addEmployeeQuery, function (err, results) {
+                consoleTable(results);
+                console.log(`${answers.add_employee_fname} ${answers.add_employee_lname} (${answers.add_employee_role}) added to ${answers.add_employee_manager}'s department in database`);
+            }))
+        });
 };
 
 function updateEmployeeRole() {
@@ -174,9 +182,13 @@ function updateEmployeeRole() {
                     'Warehouse Foreman', 'Sales Rep', 'Receptionist', 'Office Administrator', 'Quality Assurance Agent', 'Temp Worker']
             }
         ])
-        .then(db.query(updateEmployeeRoleQuery, function (err, results) {
-            consoleTable(results);
-        }));
+        .then((answers) => {
+            // return answers
+            (db.query(updateEmployeeRoleQuery, function (err, results) {
+                consoleTable(results);
+                console.log(`Succesfully updated ${answers.name}'s role to ${answers.update_employee_role}`)
+            }))
+        });
 };
 
 app.use((req, res) => {

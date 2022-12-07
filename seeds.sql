@@ -1,3 +1,5 @@
+-- data added to schema's database
+
 INSERT INTO department (id, name)
 VALUES (001, "Corporate"),
        (002, "Management"),

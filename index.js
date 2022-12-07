@@ -2,7 +2,20 @@ console.log('Employee Tracker // Company: DUNDER MIFFLIN');
 
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
-const consoleTable = require('console.table')
+const consoleTable = require('console.table');
+const chalk = require('chalk'); // table colors
+
+// storing SQL commands in variables so functions look cleaner
+const viewAllDepartmentsQuery = 'SELECT * FROM department';
+const viewAllRolesQuery = 'SELECT * FROM roles';
+const viewAllEmployeesQuery = 'SELECT * FROM employees';
+const addDepartmentQuery = `INSERT INTO department.name VALUES ${answer.add_department}`;
+const addRoleQuery = `INSERT INTO roles VALUES ${answer.add_role}, ${answer.add_salary}, ${answer.add_role_department}`;
+const addEmployeeQuery = `INSERT INTO employee VALUES ${answer.add_employee_fname}, ${answer.add_employee_lname}, ${answer.add_employee_role}, ${answer.add_employee_manager}`;
+const updateEmployeeRoleQuery = 'UPDATE role FROM employee.name';
+
+// array of employees for employee update function
+const getEmployees = `SELECT * FROM employees WHERE `;
 
 inquirer
     .prompt([
@@ -58,19 +71,20 @@ const db = mysql.createConnection(
 // show tables;
 
 function viewAllDepartments() {
-    db.query('SELECT * FROM department', function (err, results) {
+    db.query(viewAllDepartmentsQuery, function (err, results) {
         consoleTable(results); // table() JS method for a prettier table look in the console log
     });
 };
 
 function viewAllRoles() {
-    db.query('SELECT * FROM roles', function (err, results) {
+    db.query(viewAllRolesQuery, function (err, results) {
         consoleTable(results);
     });
 };
 
 function viewAllEmployees() {
-    db.query('SELECT * FROM employee', function (err, results) {
+    // add more to sql statement
+    db.query(viewAllEmployeesQuery, function (err, results) {
         consoleTable(results);
     });
 };
@@ -83,10 +97,11 @@ function addDepartment() {
             message: 'New Department name:'
         }])
         .then((answer) => {
-            (db.query(`INSERT INTO department VALUES ${answer}`, function (err, results) {
+            // return answer
+            (db.query(addDepartmentQuery, function (err, results) {
                 consoleTable(results);
-            }));
-        })
+            }))
+        });
 };
 
 function addRole() {
@@ -108,7 +123,7 @@ function addRole() {
                 message: 'Role department name:'
             }
         ])
-        .then(db.query(`INSERT INTO department VALUES ${answer}`, function (err, results) {
+        .then(db.query(addRoleQuery, function (err, results) {
             consoleTable(results);
         }));
 };
@@ -137,7 +152,7 @@ function addEmployee() {
                 message: 'New Employee manager name:'
             }
         ])
-        .then(db.query(`INSERT INTO department VALUES ${answer}`, function (err, results) {
+        .then(db.query(addEmployeeQuery, function (err, results) {
             consoleTable(results);
         }));
 };
@@ -147,6 +162,11 @@ function updateEmployeeRole() {
         .prompt([
             {
                 type: 'list',
+                name: 'chooose_employee',
+                choices: [getEmployees]
+            },
+            {
+                type: 'list',
                 name: 'update_employee_role',
                 message: 'Choose new employee role:',
                 choices: ['CFO', 'VP of Sales', 'Regional Manager', 'Assistant to the Regional Manager',
@@ -154,7 +174,7 @@ function updateEmployeeRole() {
                     'Warehouse Foreman', 'Sales Rep', 'Receptionist', 'Office Administrator', 'Quality Assurance Agent', 'Temp Worker']
             }
         ])
-        .then(db.query(`UPDATE * FROM department`, function (err, results) {
+        .then(db.query(updateEmployeeRoleQuery, function (err, results) {
             consoleTable(results);
         }));
 };

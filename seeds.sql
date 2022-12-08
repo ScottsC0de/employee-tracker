@@ -49,8 +49,8 @@ VALUES (001, "David", "Wallace", 001, 001),
        (017, "Roy", "Anderson", 011, 016),
        (018, "Pam", "Beesly", 012, 003),
        (019, "Erin", "Hannon", 013, 003),
-       (021, "Creed", "Bratton", 014, 003),
-       (020, "Meredith", "Palmer", 014, 003),
+       (020, "Creed", "Bratton", 014, 003),
+       (021, "Meredith", "Palmer", 014, 003),
        (022, "Ryan", "Howard", 015, 003)
 
 -- data taken from:

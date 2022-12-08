@@ -19,6 +19,9 @@ CREATE TABLE roles (
     title VARCHAR(30), -- to hold role title
     salary DECIMAL (6, 2), -- to hold role salary
     department_id INT -- to hold reference to dept role belongs to
+    FOREIGN KEY (department_id)
+    REFERENCES department(id)
+    ON DELETE SET NULL
 );
 
 CREATE TABLE employee (
@@ -27,4 +30,9 @@ CREATE TABLE employee (
     last_name VARCHAR(30), -- to hold last name
     role_id INT, -- to hold ref to employee role
     manager_id INT -- to hold reference to another employee that is manager of the current employee (null if emp has no manager)
+    FOREIGN KEY (role_id)
+    REFERENCES roles(id)
+    FOREIGN KEY (manager_id)
+    REFERENCES employee(id)
+    ON DELETE SET NULL
 );

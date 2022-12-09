@@ -10,7 +10,7 @@ SELECT DATABASE();
 
 -- add named tables to database
 CREATE TABLE department (
-    id INT NOT NULL PRIMARY KEY, -- not null: needs a value, foreign key ref this primary key to join tables
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, -- not null: needs a value, foreign key ref this primary key to join tables
     name VARCHAR(30) -- string to hold dept name, char limit 30
 );
 

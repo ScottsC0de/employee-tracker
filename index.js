@@ -2,20 +2,21 @@ console.log('Employee Tracker // Company: DUNDER MIFFLIN');
 
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
-const consoleTable = require('console.table');
+
+const consoleTable = require('console.table'); // pretty console log tables
 const chalk = require('chalk'); // table colors
 
-// storing SQL commands in variables so functions look cleaner
+// storing SQL statements in variables so functions look cleaner
 const viewAllDepartmentsQuery = 'SELECT * FROM department';
 const viewAllRolesQuery = 'SELECT * FROM roles';
 const viewAllEmployeesQuery = 'SELECT * FROM employees';
-const addDepartmentQuery = `INSERT INTO department.name VALUES ${answer.add_department}`;
-const addRoleQuery = `INSERT INTO roles VALUES ${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department}`;
-const addEmployeeQuery = `INSERT INTO employee VALUES ${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager}`;
-const updateEmployeeRoleQuery = 'UPDATE role FROM employee.name';
+const addDepartmentQuery = `INSERT INTO department (name) VALUES ${answer.add_department}`;
+const addRoleQuery = `INSERT INTO roles (title, salary, department_id) VALUES ${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department}`;
+const addEmployeeQuery = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager}`;
+const updateEmployeeRoleQuery = `UPDATE employee INNER JOIN roles SET employee.role_id = roles.id WHERE id = ${answers.update_employee_role}`;
 
 // array of employees for employee update function
-const getEmployees = `SELECT * FROM employees WHERE `;
+const getEmployees = `SELECT first_name, last_name FROM employees`;
 
 inquirer
     .prompt([
@@ -51,6 +52,7 @@ inquirer
                         break;
                     default: break;
                 }
+                // switch statement cleaner than if statements here
             }))
     ]);
 
@@ -69,6 +71,7 @@ const db = mysql.createConnection(
 // source schema.sql
 // select database(), not show databases; (different command)
 // show tables;
+// describe table_name;
 
 function viewAllDepartments() {
     db.query(viewAllDepartmentsQuery, function (err, results) {
@@ -171,7 +174,8 @@ function updateEmployeeRole() {
             {
                 type: 'list',
                 name: 'chooose_employee',
-                choices: [getEmployees]
+                message: 'Which employee would you like to update?',
+                choices: [getEmployees] // array of employee names grabbed by sql select statement
             },
             {
                 type: 'list',

@@ -9,7 +9,7 @@ const chalk = require('chalk'); // table colors
 // storing SQL statements in variables so functions look cleaner
 const viewAllDepartmentsQuery = 'SELECT * FROM department';
 const viewAllRolesQuery = 'SELECT * FROM roles';
-const viewAllEmployeesQuery = 'SELECT * FROM employees';
+const viewAllEmployeesQuery = 'SELECT * FROM employee';
 const addDepartmentQuery = `INSERT INTO department (name) VALUES ${answer.add_department}`;
 const addRoleQuery = `INSERT INTO roles (title, salary, department_id) VALUES ${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department}`;
 const addEmployeeQuery = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager}`;
@@ -86,7 +86,6 @@ function viewAllRoles() {
 };
 
 function viewAllEmployees() {
-    // add more to sql statement
     db.query(viewAllEmployeesQuery, function (err, results) {
         consoleTable(results);
     });

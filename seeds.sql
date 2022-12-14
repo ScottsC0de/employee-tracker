@@ -10,7 +10,7 @@ VALUES (001, "Corporate"),
        (007, "Warehouse"),
        (008, "Office Administration"),
        (009, "Quality Assurance"),
-       (010, "Temp")
+       (010, "Temp");
 
 INSERT INTO roles (id, title, salary, department_id)
 VALUES (001, "CFO", 150000, 001),
@@ -27,7 +27,7 @@ VALUES (001, "CFO", 150000, 001),
        (012, "Office Administrator", 42000, 008),
        (013, "Receptionist", 30000, 008),
        (014, "Quality Assurance Agent", 42000, 009),
-       (015, "Temp Worker", 0, 010)
+       (015, "Temp Worker", 0, 010);
 
 INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
 VALUES (001, "David", "Wallace", 001, 001),
@@ -51,7 +51,7 @@ VALUES (001, "David", "Wallace", 001, 001),
        (019, "Erin", "Hannon", 013, 003),
        (020, "Creed", "Bratton", 014, 003),
        (021, "Meredith", "Palmer", 014, 003),
-       (022, "Ryan", "Howard", 015, 003)
+       (022, "Ryan", "Howard", 015, 003);
 
 -- data taken from:
 -- https://screenrant.com/the-office-character-salaries-dunder-mifflin-reddit/

@@ -1,3 +1,9 @@
+// mysql -u root -p
+// source schema.sql
+// select database();
+// show tables;
+// describe table_name;
+
 console.log('Employee Tracker // Company: DUNDER MIFFLIN');
 
 const inquirer = require("inquirer");
@@ -8,7 +14,6 @@ require('console.table'); // pretty console log tables
 // const chalk = require('chalk'); // table colors
 
 const db = mysql.createConnection(
-    // this takes an object of our mysql login info and database were working with
     {
         host: 'localhost',
         user: 'root',  // mySQL username
@@ -23,6 +28,7 @@ db.connect(function (err) {
     }
     console.log(`Connected to the employee database 📖`) // optional success log
 
+    // inquirer prompt call
     init();
 });
 
@@ -61,15 +67,8 @@ function init() {
                     break;
                 default: break;
             }
-            // switch statement cleaner than if statements here
         }));
 }
-
-// mysql -u root -p
-// source schema.sql
-// select database(), not show databases; (different command)
-// show tables;
-// describe table_name;
 
 function viewAllDepartments() {
     db.query('SELECT * FROM department', function (err, results) {
@@ -127,7 +126,6 @@ function addRole() {
             }
         ])
         .then((answers) => {
-            // return answers
             (db.query(`INSERT INTO roles (title, salary, department_id) VALUES (${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department})`, function (err, results) {
                 console.table(results);
                 console.log(`${answers.add_role} (salary: ${answers.add_salary}) added to department ${answers.add_role_department} in database`);
@@ -160,7 +158,6 @@ function addEmployee() {
             }
         ])
         .then((answers) => {
-            // return answers
             (db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager})`, function (err, results) {
                 console.table(results);
                 console.log(`${answers.add_employee_fname} ${answers.add_employee_lname} (${answers.add_employee_role}) added to ${answers.add_employee_manager}'s department in database`);

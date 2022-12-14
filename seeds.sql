@@ -51,7 +51,7 @@ VALUES (001, "David", "Wallace", 001, 001),
        (019, "Erin", "Hannon", 013, 003),
        (020, "Creed", "Bratton", 014, 003),
        (021, "Meredith", "Palmer", 014, 003),
-       (022, "Ryan", "Howard", 015, 003)
+       (022, "Ryan", "Howard", 015, 003);
 
 -- data taken from:
 -- https://screenrant.com/the-office-character-salaries-dunder-mifflin-reddit/

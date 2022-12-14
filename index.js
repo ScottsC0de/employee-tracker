@@ -29,10 +29,10 @@ db.connect(function (err) {
     console.log(`Connected to the employee database 📖`) // optional success log
 
     // inquirer prompt call
-    init();
+    initialPrompt();
 });
 
-function init() {
+function initialPrompt() {
     inquirer
         .prompt([
             {
@@ -68,26 +68,45 @@ function init() {
                 default: break;
             }
         }));
-}
+};
+
+function nextMove() {
+    inquirer
+        .prompt([
+            {
+                name: 'next_move',
+                type: 'list',
+                message: 'What would you like to do next?',
+                choices: ['Make Another Move', 'Exit']
+            }])
+        .then((answers => {
+            switch (answers.next_move) {
+                case 'Make Another Move': initialPrompt();
+                    break;
+                case 'Exit': break;
+                default: break;
+            }
+        }));
+};
 
 function viewAllDepartments() {
     db.query('SELECT * FROM department', function (err, results) {
         console.table(results);
-        init();
+        nextMove();
     });
 };
 
 function viewAllRoles() {
     db.query('SELECT * FROM roles', function (err, results) {
         console.table(results);
-        init();
+        nextMove();
     });
 };
 
 function viewAllEmployees() {
     db.query('SELECT * FROM employee', function (err, results) {
         console.table(results);
-        init();
+        nextMove();
     });
 };
 
@@ -99,9 +118,9 @@ function addDepartment() {
             message: 'New Department name:'
         }])
         .then((answers) => {
-            // return answers
             (db.query(`INSERT INTO department (name) VALUES (${answers.add_department})`, function (err, results) {
                 console.table(results);
+                nextMove();
             }))
         });
 };
@@ -129,6 +148,7 @@ function addRole() {
             (db.query(`INSERT INTO roles (title, salary, department_id) VALUES (${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department})`, function (err, results) {
                 console.table(results);
                 console.log(`${answers.add_role} (salary: ${answers.add_salary}) added to department ${answers.add_role_department} in database`);
+                nextMove();
             }))
         });
 };
@@ -161,12 +181,13 @@ function addEmployee() {
             (db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager})`, function (err, results) {
                 console.table(results);
                 console.log(`${answers.add_employee_fname} ${answers.add_employee_lname} (${answers.add_employee_role}) added to ${answers.add_employee_manager}'s department in database`);
+                nextMove();
             }))
         });
 };
 
 function updateEmployeeRole() {
-    db.query('SELECT first_name, last_name FROM employees', function (err, employeeRows) {
+    db.query('SELECT first_name, last_name FROM employee', function (err, employeeRows) {
 
         const employeeNames = employeeRows.map(employee => {
             return `${employee.first_name} ${employee.last_name}`
@@ -183,7 +204,7 @@ function updateEmployeeRole() {
                         type: 'list',
                         name: 'chooose_employee',
                         message: 'Which employee would you like to update?',
-                        choices: employeeNames // array of employee names grabbed by map()
+                        choices: employeeNames
                     },
                     {
                         type: 'list',
@@ -195,7 +216,8 @@ function updateEmployeeRole() {
                 .then((answers) => {
                     (db.query(`UPDATE employee INNER JOIN roles SET employee.role_id = roles.id WHERE id = ${answers.update_employee_role}`, function (err, results) {
                         console.table(results);
-                        console.log(`Succesfully updated ${answers.name}'s role to ${answers.update_employee_role}`)
+                        console.log(`Succesfully updated ${answers.choose_employee}'s role to ${answers.update_employee_role}`)
+                        nextMove();
                     }))
                 });
         })

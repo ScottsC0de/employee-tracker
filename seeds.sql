@@ -1,6 +1,6 @@
 -- data added to schema's database
 
-INSERT INTO department (id, name)
+INSERT INTO departments (id, name)
 VALUES (001, "Corporate"),
        (002, "Management"),
        (003, "Sales"),
@@ -29,7 +29,7 @@ VALUES (001, "CFO", 150000, 001),
        (014, "Quality Assurance Agent", 42000, 009),
        (015, "Temp Worker", 0, 010);
 
-INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
+INSERT INTO employees (id, first_name, last_name, role_id, manager_id)
 VALUES (001, "David", "Wallace", 001, 001),
        (002, "Jan", "Levinson-Gould", 002, 001),
        (003, "Michael", "Scott", 003, 002),

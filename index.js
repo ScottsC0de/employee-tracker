@@ -4,14 +4,14 @@
 // show tables;
 // describe table_name;
 
-console.log('Employee Tracker // Company: DUNDER MIFFLIN');
+console.log('\nEmployee Tracker // Company: DUNDER MIFFLIN\n');
 
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
 
 require('console.table'); // pretty console log tables
 
-// const chalk = require('chalk'); // table colors
+const chalk = require('chalk'); // table colors
 
 const db = mysql.createConnection(
     {
@@ -26,7 +26,7 @@ db.connect(function (err) {
     if (err) {
         throw err
     }
-    console.log(`Connected to the employee database 📖`) // optional success log
+    console.log(`Connected to the employee database 📖\n`) // optional success log
 
     // inquirer prompt call
     initialPrompt();
@@ -38,7 +38,7 @@ function initialPrompt() {
             {
                 name: 'tracker',
                 type: 'list',
-                message: 'What would you like to do?',
+                message: 'What would you like to do?\n',
                 choices: [
                     'View All Departments',
                     'View All Roles',
@@ -76,21 +76,23 @@ function nextMove() {
             {
                 name: 'next_move',
                 type: 'list',
-                message: 'What would you like to do next?',
-                choices: ['Make Another Move', 'Exit']
+                message: 'What is your next move?',
+                choices: ['Return To Menu', 'Exit Employee Tracker']
             }])
         .then((answers => {
             switch (answers.next_move) {
-                case 'Make Another Move': initialPrompt();
+                case 'Return To Menu': initialPrompt();
                     break;
-                case 'Exit': break;
+                case 'Exit Employee Tracker': db.end();
+                    console.log('\nThanks for stopping by!\n')
+                    break;
                 default: break;
             }
         }));
 };
 
 function viewAllDepartments() {
-    db.query('SELECT * FROM department', function (err, results) {
+    db.query('SELECT * FROM departments', function (err, results) {
         console.table(results);
         nextMove();
     });
@@ -104,7 +106,7 @@ function viewAllRoles() {
 };
 
 function viewAllEmployees() {
-    db.query('SELECT * FROM employee', function (err, results) {
+    db.query('SELECT * FROM employees', function (err, results) {
         console.table(results);
         nextMove();
     });
@@ -118,7 +120,7 @@ function addDepartment() {
             message: 'New Department name:'
         }])
         .then((answers) => {
-            (db.query(`INSERT INTO department (name) VALUES (${answers.add_department})`, function (err, results) {
+            (db.query(`INSERT INTO departments (id, name) VALUES (${answers.add_department});`, function (err, results) {
                 console.table(results);
                 nextMove();
             }))
@@ -145,7 +147,7 @@ function addRole() {
             }
         ])
         .then((answers) => {
-            (db.query(`INSERT INTO roles (title, salary, department_id) VALUES (${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department})`, function (err, results) {
+            (db.query(`INSERT INTO roles (title, salary, department_id) VALUES (${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department});`, function (err, results) {
                 console.table(results);
                 console.log(`${answers.add_role} (salary: ${answers.add_salary}) added to department ${answers.add_role_department} in database`);
                 nextMove();
@@ -178,7 +180,7 @@ function addEmployee() {
             }
         ])
         .then((answers) => {
-            (db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager})`, function (err, results) {
+            (db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager});`, function (err, results) {
                 console.table(results);
                 console.log(`${answers.add_employee_fname} ${answers.add_employee_lname} (${answers.add_employee_role}) added to ${answers.add_employee_manager}'s department in database`);
                 nextMove();
@@ -187,12 +189,14 @@ function addEmployee() {
 };
 
 function updateEmployeeRole() {
-    db.query('SELECT first_name, last_name FROM employee', function (err, employeeRows) {
+    db.query('SELECT first_name, last_name FROM employees;', function (err, employeeRows) {
 
+        // array of employee names for prompt
         const employeeNames = employeeRows.map(employee => {
             return `${employee.first_name} ${employee.last_name}`
         });
 
+        // array of roles for prompt
         db.query('SELECT title FROM roles', function (err, roleRows) {
             const roleTitles = roleRows.map(role => {
                 return `${role.title}`
@@ -214,7 +218,7 @@ function updateEmployeeRole() {
                     }
                 ])
                 .then((answers) => {
-                    (db.query(`UPDATE employee INNER JOIN roles SET employee.role_id = roles.id WHERE id = ${answers.update_employee_role}`, function (err, results) {
+                    (db.query(`UPDATE employees INNER JOIN roles SET employee.role_id = roles.id WHERE id = ${answers.update_employee_role}`, function (err, results) {
                         console.table(results);
                         console.log(`Succesfully updated ${answers.choose_employee}'s role to ${answers.update_employee_role}`)
                         nextMove();

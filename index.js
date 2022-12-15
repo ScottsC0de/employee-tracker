@@ -1,15 +1,13 @@
 // mysql -u root -p
-// source schema.sql
-// select database();
-// show tables;
-// describe table_name;
+// source schema.sql;
+// source seeds.sql;
 
 console.log('\nEmployee Tracker // Company: DUNDER MIFFLIN\n');
 
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
 
-require('console.table'); // pretty console log tables
+require('console.table'); // console log tables
 
 const chalk = require('chalk'); // table colors
 
@@ -36,7 +34,7 @@ function initialPrompt() {
     inquirer
         .prompt([
             {
-                name: 'tracker',
+                name: 'menu',
                 type: 'list',
                 message: 'What would you like to do?\n',
                 choices: [
@@ -50,7 +48,7 @@ function initialPrompt() {
                 ]
             }])
         .then((answers => {
-            switch (answers.tracker) {
+            switch (answers.menu) {
                 case 'View All Departments': viewAllDepartments();
                     break;
                 case 'View All Roles': viewAllRoles();
@@ -92,21 +90,21 @@ function nextMove() {
 };
 
 function viewAllDepartments() {
-    db.query('SELECT * FROM departments', function (err, results) {
+    db.query('SELECT * FROM departments;', function (err, results) {
         console.table(results);
         nextMove();
     });
 };
 
 function viewAllRoles() {
-    db.query('SELECT * FROM roles', function (err, results) {
+    db.query('SELECT * FROM roles;', function (err, results) {
         console.table(results);
         nextMove();
     });
 };
 
 function viewAllEmployees() {
-    db.query('SELECT * FROM employees', function (err, results) {
+    db.query('SELECT * FROM employees;', function (err, results) {
         console.table(results);
         nextMove();
     });

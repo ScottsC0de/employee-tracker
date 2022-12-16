@@ -90,21 +90,21 @@ function nextMove() {
 };
 
 function viewAllDepartments() {
-    db.query('SELECT * FROM departments;', function (err, results) {
+    db.query('SELECT id, name AS Department FROM departments;', function (err, results) {
         console.table(results);
         nextMove();
     });
 };
 
 function viewAllRoles() {
-    db.query('SELECT * FROM roles;', function (err, results) {
+    db.query('SELECT roles.id, title AS Role, salary AS Salary, departments.name AS Department FROM roles JOIN departments ON department_id = departments.id;', function (err, results) {
         console.table(results);
         nextMove();
     });
 };
 
 function viewAllEmployees() {
-    db.query('SELECT * FROM employees;', function (err, results) {
+    db.query("SELECT employees.id, employees.first_name AS First, employees.last_name AS Last, roles.title AS Role, departments.name AS Department, roles.salary AS Salary, CONCAT(CONCAT(Manager.first_name, ' '), Manager.last_name) AS Manager FROM employees JOIN roles ON role_id = roles.id JOIN departments ON roles.department_id = departments.id LEFT JOIN employees AS Manager ON employees.manager_id = Manager.id;", function (err, results) {
         console.table(results);
         nextMove();
     });
@@ -216,7 +216,7 @@ function updateEmployeeRole() {
                     }
                 ])
                 .then((answers) => {
-                    (db.query(`UPDATE employees INNER JOIN roles SET employee.role_id = roles.id WHERE id = ${answers.update_employee_role}`, function (err, results) {
+                    (db.query(`UPDATE employees INNER JOIN roles SET employees.role_id = roles.id WHERE id = ${answers.update_employee_role}`, function (err, results) {
                         console.table(results);
                         console.log(`Succesfully updated ${answers.choose_employee}'s role to ${answers.update_employee_role}`)
                         nextMove();
@@ -226,3 +226,9 @@ function updateEmployeeRole() {
 
     })
 };
+
+// `SELECT employee.id, employee.first_name AS first, employee.last_name AS last, roles.title AS role, department.dept_name AS department, roles.salary, CONCAT (manager.first_name, " ", manager.last_name) AS manager
+//     FROM employee
+//     JOIN roles ON employee.role_id = roles.id
+//     JOIN department ON roles.department_id = department.id
+//     JOIN employee manager ON employee.manager_id = manager.id`

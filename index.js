@@ -9,7 +9,7 @@ const mysql = require('mysql2');
 
 require('console.table'); // console log tables
 
-const chalk = require('chalk'); // table colors
+// const chalk = require('chalk'); // table colors
 
 const db = mysql.createConnection(
     {
@@ -195,40 +195,27 @@ function updateEmployeeRole() {
             return `${employee.first_name} ${employee.last_name}`
         });
 
-        // array of roles for prompt
-        db.query('SELECT title FROM roles', function (err, roleRows) {
-            const roleTitles = roleRows.map(role => {
-                return `${role.title}`
+        inquirer
+            .prompt([
+                {
+                    type: 'list',
+                    name: 'choose_employee',
+                    message: 'Which employee would you like to update?',
+                    choices: employeeNames
+                },
+
+                {
+                    type: 'input',
+                    name: 'update_employee_role',
+                    message: 'Enter Employee Role ID:'
+                }
+            ])
+            .then((answers) => {
+                (db.query(`UPDATE employees SET role_id = ${answers.update_employee_role} WHERE CONCAT(CONCAT(first_name, ' '), last_name) = "${answers.choose_employee}";`, function (err, results) {
+                    console.table(results);
+                    console.log(`Success! Updated ${answers.choose_employee}'s Role 📈\n`);
+                    nextMove();
+                }))
             });
-
-            inquirer
-                .prompt([
-                    {
-                        type: 'list',
-                        name: 'choose_employee',
-                        message: 'Which employee would you like to update?',
-                        choices: employeeNames
-                    },
-                    // {
-                    //     type: 'list',
-                    //     name: 'update_employee_role',
-                    //     message: 'Choose new employee role:',
-                    //     choices: roleTitles,
-                    // },
-                    {
-                        type: 'input',
-                        name: 'update_employee_role',
-                        message: 'Enter Employee Role ID:'
-                    }
-                ])
-                .then((answers) => {
-                    (db.query(`UPDATE employees SET role_id = ${answers.update_employee_role} WHERE name = "";`, function (err, results) {
-                        console.table(results);
-                        console.log(`Success! Updated ${answers.choose_employee}'s Role 📈\n`);
-                        nextMove();
-                    }))
-                });
-        })
-
     })
 };

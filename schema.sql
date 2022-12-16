@@ -36,5 +36,3 @@ CREATE TABLE employees (
     REFERENCES employees(id)
     ON DELETE SET NULL
 );
-
-SELECT employees.id, employees.first_name AS First, employees.last_name AS Last, roles.title AS Role, departments.name, roles.salary, CONCAT(CONCAT(Manager.first_name, ' '), Manager.last_name) AS Manager FROM employees JOIN roles ON role_id = roles.id JOIN departments ON roles.department_id = departments.id LEFT JOIN employees AS Manager ON employees.manager_id = Manager.id;

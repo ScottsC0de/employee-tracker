@@ -120,6 +120,7 @@ function addDepartment() {
         .then((answers) => {
             (db.query(`INSERT INTO departments (name) VALUES ("${answers.add_department}");`, function (err, results) {
                 console.table(results);
+                console.log('Success! Added New Department 📈\n');
                 nextMove();
             }))
         });
@@ -141,13 +142,13 @@ function addRole() {
             {
                 type: 'input',
                 name: 'add_role_department',
-                message: 'Role department name:'
+                message: 'Role department ID:'
             }
         ])
         .then((answers) => {
             (db.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${answers.add_role}", ${answers.add_salary}, ${answers.add_role_department});`, function (err, results) {
                 console.table(results);
-                console.log(`${answers.add_role} (salary: ${answers.add_salary}) added to department ${answers.add_role_department} in database`);
+                console.log('Success! Added New Role 📈\n');
                 nextMove();
             }))
         });
@@ -169,18 +170,18 @@ function addEmployee() {
             {
                 type: 'input',
                 name: 'add_employee_role',
-                message: 'New Employee role:'
+                message: 'Enter Employee Role ID:'
             },
             {
                 type: 'input',
                 name: 'add_employee_manager',
-                message: 'New Employee manager name:'
+                message: 'Enter Employee Manager ID:'
             }
         ])
         .then((answers) => {
             (db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${answers.add_employee_fname}", "${answers.add_employee_lname}", ${answers.add_employee_role}, ${answers.add_employee_manager});`, function (err, results) {
                 console.table(results);
-                console.log(`${answers.add_employee_fname} ${answers.add_employee_lname} (${answers.add_employee_role}) added to ${answers.add_employee_manager}'s department in database`);
+                console.log('Success! Added New Employee 📈\n');
                 nextMove();
             }))
         });
@@ -208,17 +209,22 @@ function updateEmployeeRole() {
                         message: 'Which employee would you like to update?',
                         choices: employeeNames
                     },
+                    // {
+                    //     type: 'list',
+                    //     name: 'update_employee_role',
+                    //     message: 'Choose new employee role:',
+                    //     choices: roleTitles,
+                    // },
                     {
-                        type: 'list',
+                        type: 'input',
                         name: 'update_employee_role',
-                        message: 'Choose new employee role:',
-                        choices: roleTitles,
+                        message: 'Enter Employee Role ID:'
                     }
                 ])
                 .then((answers) => {
-                    (db.query(`UPDATE employees INNER JOIN roles SET employees.role_id = roles.id WHERE id = ${answers.update_employee_role}`, function (err, results) {
+                    (db.query(`UPDATE employees SET role_id = ${answers.update_employee_role} WHERE name = "";`, function (err, results) {
                         console.table(results);
-                        console.log(`Succesfully updated ${answers.choose_employee}'s role to ${answers.update_employee_role}`)
+                        console.log(`Success! Updated ${answers.choose_employee}'s Role 📈\n`);
                         nextMove();
                     }))
                 });
@@ -226,9 +232,3 @@ function updateEmployeeRole() {
 
     })
 };
-
-// `SELECT employee.id, employee.first_name AS first, employee.last_name AS last, roles.title AS role, department.dept_name AS department, roles.salary, CONCAT (manager.first_name, " ", manager.last_name) AS manager
-//     FROM employee
-//     JOIN roles ON employee.role_id = roles.id
-//     JOIN department ON roles.department_id = department.id
-//     JOIN employee manager ON employee.manager_id = manager.id`

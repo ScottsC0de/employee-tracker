@@ -21,7 +21,7 @@ To use this application, you must download node onto your local machine. Please 
 ## <a id="usage-id"></a>Usage
 With node installed, you can now run node commands on JavaScript files. To use this app, you must be in its file from the CLI or an app that allows you to run CLI commands. For this app, we used VSCode’s Integrated Terminal. If you are using VSCode, right click on the index.js file and click ‘Open In Integrated Terminal’. Run a node index.js command to begin using the Employee Tracker. Answer all prompts and watch the magic happen.
 
-Full visual demonstration:
+Full visual demonstration: https://youtu.be/12fUfrv_vkg
 
 ## <a id="questions-id"></a>Questions
 You can check out my repositories here on my GitHub account: 

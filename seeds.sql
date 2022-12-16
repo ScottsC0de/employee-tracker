@@ -30,7 +30,7 @@ VALUES (001, "CFO", 150000, 001),
        (015, "Temp Worker", 0, 010);
 
 INSERT INTO employees (id, first_name, last_name, role_id, manager_id)
-VALUES (001, "David", "Wallace", 001, 001),
+VALUES (001, "David", "Wallace", 001, NULL),       
        (002, "Jan", "Levinson-Gould", 002, 001),
        (003, "Michael", "Scott", 003, 002),
        (004, "Dwight", "Schrute", 004, 003), 
@@ -42,7 +42,7 @@ VALUES (001, "David", "Wallace", 001, 001),
        (010, "Angela", "Martin", 006, 003),
        (011, "Kevin", "Malone", 007, 010),
        (012, "Oscar", "Martinez", 007, 010),
-       (013, "Kelly", "Kapoor", 008, 022),
+       (013, "Kelly", "Kapoor", 008, 001),
        (014, "Toby", "Flenderson", 009, 002),
        (015, "Holly", "Flax", 009, 002),
        (016, "Darryl", "Philbin", 010, 003),
@@ -52,6 +52,7 @@ VALUES (001, "David", "Wallace", 001, 001),
        (020, "Creed", "Bratton", 014, 003),
        (021, "Meredith", "Palmer", 014, 003),
        (022, "Ryan", "Howard", 015, 003);
+
 
 -- data taken from:
 -- https://screenrant.com/the-office-character-salaries-dunder-mifflin-reddit/

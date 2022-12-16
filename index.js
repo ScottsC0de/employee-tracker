@@ -118,7 +118,7 @@ function addDepartment() {
             message: 'New Department name:'
         }])
         .then((answers) => {
-            (db.query(`INSERT INTO departments (id, name) VALUES (${answers.add_department});`, function (err, results) {
+            (db.query(`INSERT INTO departments (name) VALUES ("${answers.add_department}");`, function (err, results) {
                 console.table(results);
                 nextMove();
             }))
@@ -145,7 +145,7 @@ function addRole() {
             }
         ])
         .then((answers) => {
-            (db.query(`INSERT INTO roles (title, salary, department_id) VALUES (${answers.add_role}, ${answers.add_salary}, ${answers.add_role_department});`, function (err, results) {
+            (db.query(`INSERT INTO roles (title, salary, department_id) VALUES ("${answers.add_role}", ${answers.add_salary}, ${answers.add_role_department});`, function (err, results) {
                 console.table(results);
                 console.log(`${answers.add_role} (salary: ${answers.add_salary}) added to department ${answers.add_role_department} in database`);
                 nextMove();
@@ -178,7 +178,7 @@ function addEmployee() {
             }
         ])
         .then((answers) => {
-            (db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (${answers.add_employee_fname}, ${answers.add_employee_lname}, ${answers.add_employee_role}, ${answers.add_employee_manager});`, function (err, results) {
+            (db.query(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES ("${answers.add_employee_fname}", "${answers.add_employee_lname}", ${answers.add_employee_role}, ${answers.add_employee_manager});`, function (err, results) {
                 console.table(results);
                 console.log(`${answers.add_employee_fname} ${answers.add_employee_lname} (${answers.add_employee_role}) added to ${answers.add_employee_manager}'s department in database`);
                 nextMove();
@@ -204,7 +204,7 @@ function updateEmployeeRole() {
                 .prompt([
                     {
                         type: 'list',
-                        name: 'chooose_employee',
+                        name: 'choose_employee',
                         message: 'Which employee would you like to update?',
                         choices: employeeNames
                     },

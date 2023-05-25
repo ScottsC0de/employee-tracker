@@ -8,6 +8,7 @@ An app that allows you to track all employees in a database using mySQL and the 
 - [Description](#description-id)
 - [Installation](#installation-id)
 - [Usage](#usage-id)
+- [Screenshots](#screenshots-id)
 - [Questions](#questions-id)
 
 ## <a id="description-id"></a>Description
@@ -22,6 +23,19 @@ To use this application, you must download node onto your local machine. Please 
 With node installed, you can now run node commands on JavaScript files. To use this app, you must be in its file from the CLI or an app that allows you to run CLI commands. For this app, we used VSCode’s Integrated Terminal. If you are using VSCode, right click on the index.js file and click ‘Open In Integrated Terminal’. Run a node index.js command to begin using the Employee Tracker. Answer all prompts and watch the magic happen.
 
 Full visual demonstration: https://youtu.be/12fUfrv_vkg
+
+<br>
+
+## <a id="screenshots-id"></a>Screenshots
+
+![Running commands with mySQL](img/sql_tracker_pic_1.png)
+<br>
+
+![Running commands with mySQL](img/sql_tracker_pic_2.png)
+<br>
+
+![Running commands with mySQL](img/sql_tracker_pic_3.png)
+<br>
 
 ## <a id="questions-id"></a>Questions
 You can check out my repositories here on my GitHub account: 
